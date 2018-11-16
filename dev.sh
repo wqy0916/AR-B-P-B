@@ -86,9 +86,8 @@ while :; do echo
 done
 
 if [[ $devc == 1 ]];then
-	echo "本功能已迁移到 程序管理 ,即将为您跳转!"
 	cd /usr/local/SSR-Bash-Python/
-	bash ./self.sh
+	bash ./self.sh update
 fi
 
 if [[ $devc == 2 ]];then

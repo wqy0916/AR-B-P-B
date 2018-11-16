@@ -48,7 +48,12 @@ updateme(){
 		read -n 1 yn
 		if [[ $yn == [Yy] ]];then
 			export yn=n
-			curl -s -O https://git.fdos.me/stack/AR-B-P-B/raw/master/install.sh && bash install.sh develop
+			cd ~
+			echo "开始下载安装包！"
+			curl -s -L https://down.fdos.me/install.sh > ./install-ssr.sh
+			echo "开始安装！"
+			sleep 1s
+			bash ./install-ssr.sh
 			sleep 3s
 			clear
 			ssr || exit 0
@@ -164,6 +169,10 @@ else
 fi
 }
 #Show
+if [[ x${1} == 'xupdate' ]]; then
+	updateme
+	exit 0
+fi
 echo "输入数字选择功能："
 echo ""
 echo "1.检查更新"
