@@ -148,6 +148,30 @@ TCP_UDP(){
 	fi
 	sleep 2s
 }
+changedm(){
+read -p "请输入与您主机绑定的域名，请确定已解析至本机IP(默认填入本机IP): " ipname
+  if [[ -z ${ipname} ]];then
+       ipname=$(wget -qO- -t1 -T2 ipinfo.io/ip)
+  else
+       myip=$(wget -qO- -t1 -T2 ipinfo.io/ip)
+       if [[ ${myip} != ${ipname} ]];then
+           domainip=$(dig +short -t a "${ipname}" 2>/dev/null | awk '/^[0-9]/')
+           if [[ ${myip} != ${domainip} ]];then
+              if type -p dig &> /dev/null ;then
+                  echo "警告，您输入的域名与实际不符或解析未生效，将为您填入您的真实IP，稍后您可以待解析生效后再次填入"
+              else
+                  echo "未发现dig命令：域名校验失败，将为您填入您的IP地址!"
+              fi
+              ipname=${myip}
+              sleep 1s
+           fi
+       fi
+  fi
+echo "$ipname" > /usr/local/shadowsocksr/myip.txt
+sed -i "s/SERVER_PUB_ADDR = .*$/SERVER_PUB_ADDR = '${ipname}'/g" /usr/local/shadowsocksr/userapiconfig.py
+echo "修改成功!"
+}
+
 echo ""
 echo "1.启动服务"
 echo "2.停止服务"
@@ -161,13 +185,14 @@ echo "9.开/关服务端开机启动"
 echo "10.服务器自动巡检系统"
 echo "11.服务器网络与IO测速"
 echo "12.网络协议模式切换"
+echo "13.修改本机域名"
 echo "直接回车返回上级菜单"
 
 while :; do echo
 	read -p "请选择： " serverc
 	[ -z "$serverc" ] && ssr && break
 	if [[ ! $serverc =~ ^[1-9]$ ]]; then
-		if [[ $serverc == 10 ]]||[[ $serverc == 11 ]]||[[ $serverc == 12 ]]; then
+		if [[ $serverc == 10 ]]||[[ $serverc == 11 ]]||[[ $serverc == 12 ]]||[[ $serverc == 13 ]]; then
 			break
 		fi
 		echo "输入错误! 请输入正确的数字!"
@@ -334,4 +359,9 @@ fi
 if [[ $serverc == 12 ]];then
 	TCP_UDP
 	bash /usr/local/SSR-Bash-Python/server.sh
+fi
+
+if [[ $serverc == 13 ]];then 
+    changedm
+    bash /usr/local/SSR-Bash-Python/server.sh
 fi
