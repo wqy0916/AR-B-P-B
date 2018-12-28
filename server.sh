@@ -149,6 +149,7 @@ TCP_UDP(){
 	sleep 2s
 }
 changedm(){
+echo "当前值：$(cat /usr/local/shadowsocksr/myip.txt)"
 read -p "请输入与您主机绑定的域名，请确定已解析至本机IP(默认填入本机IP): " ipname
   if [[ -z ${ipname} ]];then
        ipname=$(wget -qO- -t1 -T2 ipinfo.io/ip)
