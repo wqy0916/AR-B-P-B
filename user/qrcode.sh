@@ -6,21 +6,25 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 #Main
 checkqr(){
-	if [[ ! -e /usr/bin/qr ]];then
-		if [[ ! -e /usr/local/bin/qr ]];then
+	if type -p qr &> /dev/null ;then
+		if [[ $(file $(which qr)) == *ASCII* ]];then
 			echo "你还未安装二维码生成模块"
 			echo "按回车键继续，Ctrl+C退出！"
 			read -s
 			echo "正在安装，通常这不需要太多时间"
-			pip -q install qrcode
-			pip -q install git+git://github.com/ojii/pymaging.git
-			pip -q install git+git://github.com/ojii/pymaging-png.git
+			mkdir /tmp/qr
+			cd /tmp/qr
+			wget -N --no-check-certificate https://github.com/sheirys/qrcode/releases/download/v0.1/qrcode_0.1_linux_amd64.tar.gz
+			tar xzvf *.gz
+			mv ./qrcode /usr/bin/qr
+			cd .. && rm -rf qr
+			chmod +x /usr/bin/qr
 			if [[ -e /usr/bin/qr ]];then
 				echo "安装完成！"
 			elif [[ -e /usr/local/bin/qr ]];then
 				echo "安装完成！"
 			else
-				echo "安装失败 请检查你的Python是否正常，并尝试重新安装"
+				echo "安装失败 请检查你的网络是否正常，并尝试重新安装"
 				exit 1
 			fi
 		fi
@@ -104,7 +108,7 @@ cd SSRQR
 if [[ -e $username.png ]];then
 	rm -f $username.png
 fi
-qr --factory=pymaging "$ssrmsg" > $username.png
+qr -content="${ssrmsg}" -size=150 -file="${username}.png"
 
 while :;do
     cport=$(rand 1000 65535)
@@ -122,7 +126,7 @@ if [[ -e "$username.png" ]];then
     mkdir -p /tmp/QR/${username}
     cp "${HOME}/SSRQR/${username}.png" /tmp/QR/${username}
     cd /tmp/QR/${username}
-    myip=`curl -m 10 -s http://members.3322.org/dyndns/getip`
+    myip=$(cat /usr/local/shadowsocksr/myip.txt)
     screen -dmS ${cname} python -m SimpleHTTPServer ${cport}
     cleanwebqr ${cname} ${cport} ${username} &
     echo "请及时访问 http://${myip}:${cport}/${username}.png 来获取二维码,链接将在120秒后失效"
