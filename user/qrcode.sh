@@ -16,6 +16,7 @@ checkqr(){
 			cd /tmp/qr
 			wget -N --no-check-certificate https://github.com/sheirys/qrcode/releases/download/v0.1/qrcode_0.1_linux_amd64.tar.gz
 			tar xzvf *.gz
+			rm -f $(which qr)
 			mv ./qrcode /usr/bin/qr
 			cd .. && rm -rf qr
 			chmod +x /usr/bin/qr
