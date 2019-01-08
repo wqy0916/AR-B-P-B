@@ -6,8 +6,8 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 #Main
 checkqr(){
-	if type -p qr &> /dev/null ;then
-		if [[ $(file $(which qr)) == *ASCII* ]];then
+	if [ ! type -p qr &> /dev/null -o $(file $(which qr)) == *ASCII* ];then
+		if [[ ASCII == *ASCII* ]];then
 			echo "你还未安装二维码生成模块"
 			echo "按回车键继续，Ctrl+C退出！"
 			read -s
