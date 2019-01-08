@@ -10,6 +10,8 @@ OS=CentOS
 [ -n "$(grep ' 7\.' /etc/redhat-release)" ] && CentOS_RHEL_version=7
 [ -n "$(grep ' 6\.' /etc/redhat-release)" -o -n "$(grep 'Aliyun Linux release6 15' /etc/issue)" ] && CentOS_RHEL_version=6
 [ -n "$(grep ' 5\.' /etc/redhat-release)" -o -n "$(grep 'Aliyun Linux release5' /etc/issue)" ] && CentOS_RHEL_version=5
+elif [ ! -z "$(grep 'Arch Linux' /etc/issue)" ];then
+    OS=Ubuntu
 elif [ -n "$(grep 'Amazon Linux AMI release' /etc/issue)" -o -e /etc/system-release ];then
 OS=CentOS
 CentOS_RHEL_version=6

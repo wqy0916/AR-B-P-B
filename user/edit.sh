@@ -17,6 +17,8 @@ elif [ -n "$(grep bian /etc/issue)" -o "$(lsb_release -is 2>/dev/null)" == 'Debi
 OS=Debian
 [ ! -e "$(which lsb_release)" ] && { apt-get -y update; apt-get -y install lsb-release; clear; }
 Debian_version=$(lsb_release -sr | awk -F. '{print $1}')
+elif [ ! -z "$(grep 'Arch Linux' /etc/issue)" ];then
+    OS=Ubuntu
 elif [ -n "$(grep Deepin /etc/issue)" -o "$(lsb_release -is 2>/dev/null)" == 'Deepin' ];then
 OS=Debian
 [ ! -e "$(which lsb_release)" ] && { apt-get -y update; apt-get -y install lsb-release; clear; }

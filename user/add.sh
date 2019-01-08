@@ -24,6 +24,8 @@ OS=Ubuntu
 [ ! -e "$(which lsb_release)" ] && { apt-get -y update; apt-get -y install lsb-release; clear; }
 Ubuntu_version=$(lsb_release -sr | awk -F. '{print $1}')
 [ -n "$(grep 'Linux Mint 18' /etc/issue)" ] && Ubuntu_version=16
+elif [ ! -z "$(grep 'Arch Linux' /etc/issue)" ];then
+    OS=Ubuntu
 else
 echo "Does not support this OS, Please contact the author! "
 kill -9 $$
