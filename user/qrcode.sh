@@ -5,33 +5,35 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
 
 #Main
-checkqr(){
-	if [ ! type -p qr &> /dev/null -o $(file $(which qr)) == *ASCII* ];then
-		if [[ ASCII == *ASCII* ]];then
-			echo "你还未安装二维码生成模块"
-			echo "按回车键继续，Ctrl+C退出！"
-			read -s
-			echo "正在安装，通常这不需要太多时间"
-			mkdir /tmp/qr
-			cd /tmp/qr
-			wget -N --no-check-certificate https://github.com/sheirys/qrcode/releases/download/v0.1/qrcode_0.1_linux_amd64.tar.gz
-			tar xzvf *.gz
-			rm -f $(which qr)
-			mv ./qrcode /usr/bin/qr
-			cd .. && rm -rf qr
-			chmod +x /usr/bin/qr
-			if [[ -e /usr/bin/qr ]];then
-				echo "安装完成！"
-			elif [[ -e /usr/local/bin/qr ]];then
-				echo "安装完成！"
-			else
-				echo "安装失败 请检查你的网络是否正常，并尝试重新安装"
-				exit 1
-			fi
-		fi
-	fi
+inqr(){
+        echo "你还未安装二维码生成模块"
+        echo "按回车键继续，Ctrl+C退出！"
+        read -s
+        echo "正在安装，通常这不需要太多时间"
+        mkdir /tmp/qr
+        cd /tmp/qr
+        wget -N --no-check-certificate https://github.com/sheirys/qrcode/releases/download/v0.1/qrcode_0.1_linux_amd64.tar.gz
+        tar xzvf *.gz
+        rm -f $(which qr)
+        mv ./qrcode /usr/bin/qr
+        cd .. && rm -rf qr
+        chmod +x /usr/bin/qr
+                if type -p qr &> /dev/null ;then
+                        echo "安装完成！"
+                else
+                        echo "安装失败 请检查你的网络是否正 常，并尝试重新安装"
+                        exit 1
+                fi
 }
-
+checkqr(){
+        if type -p qr &> /dev/null ;then
+                if [[ x$(file $(which qr)) == x"*ASCII*" ]] ;then
+                        inqr
+                fi
+        else
+                inqr
+        fi
+}
 readmsg(){
 	cd /usr/local/shadowsocksr
 	echo "为已有用户生成二维码："
