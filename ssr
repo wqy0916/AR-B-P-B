@@ -28,6 +28,7 @@ if [[ ${log_filesize} -ge ${log_max} ]];then
     sed -i -n '1,198N;$p;N;D' /usr/local/shadowsocksr/ssserver.log
 fi
 fi
+
 yiyan(){
 nowdate=$(date +%Y-%m-%d)
 if [[ ! -e /tmp/yiyan.tmp || ! -e /tmp/yiyan.date ]];then
@@ -45,6 +46,29 @@ else
         tail -n 1 /tmp/yiyan.tmp
     fi
 fi
+}
+
+checkup(){
+	nowdate=$(date +%Y-%m-%d)
+	if [[ ! -e ~/version.txt || ! -e /tmp/yiyan.date ]];then
+		echo "${nowdate}" > /tmp/yiyan.date
+		curl -s -L https://git.fdos.me/stack/AR-B-P-B/raw/develop/version.txt > ~/version.txt
+		version1=`cat ~/version.txt`
+	else
+		if [[ ${nowdate} == $(cat /tmp/yiyan.date) ]];then
+			version1=`cat ~/version.txt`
+		else
+			echo "${nowdate}" > /tmp/yiyan.date
+			curl -s -L https://git.fdos.me/stack/AR-B-P-B/raw/develop/version.txt > ~/version.txt
+			version1=`cat ~/version.txt`
+		fi
+	fi
+	version2=`cat /usr/local/SSR-Bash-Python/version.txt`
+	if [[ "$version1" == "$version2" ]];then
+		echo " V${version2}"
+	else
+		echo "(有新版本 V${version1})"
+	fi
 }
 
 killme(){
@@ -94,7 +118,7 @@ TX="$(cat /proc/net/dev | sed -n '/lo:/d;/:/p' | awk '{ print $10 }' | addition 
 echo
 echo "*******************"
 echo ""
-echo -e "欢迎使用 AR (Python Base) Beta\n"
+echo -e "欢迎使用 AR-B-P-B Beta\033[32m$(checkup)\033[0m\n"
 echo -e "全局流量统计：发送:\033[40;34;1m${TX}\033[0m  接收:\033[40;34;1m${RX}\033[0m"
 echo -e "每日一言：\033[32m$(yiyan)\033[0m\n"
 echo "输入数字选择功能："
