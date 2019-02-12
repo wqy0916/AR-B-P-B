@@ -136,16 +136,16 @@ TCP_UDP(){
 		fi
 	done
 	if [[ ${serverc} == 1 ]];then
-	    sed -i 's/^TCP=.*/TCP=on/' /usr/local/SSR-Bash-Python/easyadd.conf
-		sed -i 's/^UDP=.*/UDP=on/' /usr/local/SSR-Bash-Python/easyadd.conf
+	    sed -i '1,16s/^TCP=.*/TCP=on/' /usr/local/SSR-Bash-Python/easyadd.conf
+		sed -i '1,16s/^UDP=.*/UDP=on/' /usr/local/SSR-Bash-Python/easyadd.conf
 		echo "修改成功"
 	fi
 	if [[ ${serverc} == 3 ]];then
-	    sed -i 's/^TCP=.*/TCP=off/' /usr/local/SSR-Bash-Python/easyadd.conf
+	    sed -i '1,16s/^TCP=.*/TCP=off/' /usr/local/SSR-Bash-Python/easyadd.conf
 		echo "修改成功"
 	fi
 	if [[ ${serverc} == 2 ]];then
-		sed -i 's/^UDP=.*/UDP=off/' /usr/local/SSR-Bash-Python/easyadd.conf
+		sed -i '1,16s/^UDP=.*/UDP=off/' /usr/local/SSR-Bash-Python/easyadd.conf
 		echo "修改成功"
 	fi
 	sleep 2s
