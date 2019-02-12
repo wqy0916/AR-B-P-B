@@ -44,6 +44,7 @@ echo '7.查看端口用户连接状况'
 echo '8.生成用户二维码'
 echo '9.为已有帐号添加有效期'
 echo '10.批量添加用户'
+echo '11.修改“一键添加用户”配置'
 echo "直接回车返回上级菜单"
 
 while :; do echo
@@ -54,6 +55,8 @@ while :; do echo
         fi
 	if [[ ! $userc =~ ^[1-9]$ ]]; then
 		if [[ $userc == 10 ]]; then
+			break
+		elif [[ $userc == 11 ]]; then
 			break
 		else
 			echo "输入错误! 请输入正确的数字!"
@@ -228,6 +231,13 @@ fi
 if [[ $userc == 10 ]];then
 	bash /usr/local/SSR-Bash-Python/user/batch.sh
 	echo ""
+	bash /usr/local/SSR-Bash-Python/user.sh
+fi
+
+if [[ $userc == 11 ]];then
+	source /usr/local/SSR-Bash-Python/easyadd.conf
+	changeme
+	sleep 2s
 	bash /usr/local/SSR-Bash-Python/user.sh
 fi
 exit 0
