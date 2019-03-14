@@ -5,6 +5,12 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
 
 install_overture(){
+	port=$(netstat -nltpu | grep ':53')
+	if [[ ! -z ${port} ]]; then
+		echo "53端口已经被使用，请先禁用该端口所占用的服务："
+		echo "${port}"
+		exit 1
+	fi
 	echo "开始安装！这通常不需要很久"
     ARCH=$(uname -m)
     NEW_VER=$(curl -s https://api.github.com/repos/shawn1m/overture/releases/latest | grep 'tag_name' | cut -d\" -f4)
@@ -40,6 +46,7 @@ eval $(ps -ef | grep "overture" | awk '{print "kill "$2}')
 cd /etc/overture; nohup overture -c ./config.json >> ./dns.log 2>&1 &
 EOF
 	echo "安装完成！"
+
 	firsttime=1
 }
 check_over(){
@@ -51,6 +58,8 @@ check_over(){
 	fi
 }
 start_ss(){
+	bash /usr/local/shadowsocksr/stop.sh
+	killall overture
 	bash /usr/local/shadowsocksr/logrun.sh 2>/dev/null
 	sleep 1s
 	PID=$(ps -aux | grep 'overture' | grep -v grep | awk '{print $2}')
