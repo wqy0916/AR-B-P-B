@@ -77,10 +77,14 @@ echo "6.锐速 控制台"
 echo "7.LotServer 控制台"
 echo "8.UML-LKL(OpenVZ-BBR)安装"
 echo "9.防火墙增强配置（有风险）"
+echo "10.网站访问过滤（此功能对性能要求较高）"
 while :; do echo
 	read -p "请选择： " devc
 	[ -z "$devc" ] && ssr && break
 	if [[ ! $devc =~ ^[1-9]$ ]]; then
+		if [[ $devc == 10 ]]; then
+			break
+		fi
 		echo "输入错误! 请输入正确的数字!"
 	else
 		break	
@@ -332,6 +336,11 @@ if [[ $devc == 8 ]];then
 fi
 if [[ $devc == 9  ]];then
     AutoIptables
+    bash /usr/local/SSR-Bash-Python/dev.sh
+    exit 0
+fi
+if [[ $devc == 10 ]]; then
+    bash /usr/local/SSR-Bash-Python/block.sh
     bash /usr/local/SSR-Bash-Python/dev.sh
     exit 0
 fi
