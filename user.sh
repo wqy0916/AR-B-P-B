@@ -149,11 +149,8 @@ if [[ $userc == 7 ]];then
 				if [[ $i -ge 5 ]];then
 					sleep 2s
 				fi
-                theip=$(curl -L -s ip.cn/${ips})
-                if [[ -z ${theip} ]];then
                     ipadd=$(curl -L -s freeapi.ipip.net/${ips} | sed 's/\"//g;s/,//g;s/\[//g;s/\]//g')
                     theip=$(echo "当前 IP: ${ips} 来自: ${ipadd}")
-                fi
                 echo ${theip}
 				i=$((i+1))
 			done
