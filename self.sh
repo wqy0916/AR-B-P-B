@@ -194,7 +194,8 @@ while :; do echo
 done
 
 if [[ $choice == 1 ]];then
-        updateme
+ #       updateme
+	echo "此功能已停用"
 fi
 if [[ $choice == 2 ]];then
 	echo "切换到普通版之后你将无法使用一些功能"
