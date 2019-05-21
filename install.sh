@@ -267,7 +267,7 @@ else
 #    fi
 fi
 cd /usr/local
-git clone https://git.fdos.me/stack/shadowsocksr.git
+git clone https://github.com/wqy0916/shadowsocksr.git
 cd ./shadowsocksr
 git checkout manyuser
 git pull
@@ -332,7 +332,7 @@ do
         mv /usr/local/shadowsocksr/mudb.json /usr/local/mudb.json
         rm -rf /usr/local/shadowsocksr
         cd /usr/local
-        git clone https://git.fdos.me/stack/shadowsocksr.git
+        git clone https://github.com/wqy0916/shadowsocksr.git
         if [[ $1 == develop ]];then
             cd ./shadowsocksr
             git checkout stack/dev
@@ -360,7 +360,7 @@ if [[ -d /usr/local/SSR-Bash-Python ]];then
     if [[ $yn == [yY] ]];then
         rm -rf /usr/local/SSR-Bash-Python
         cd /usr/local
-        git clone https://git.fdos.me/stack/AR-B-P-B.git
+        git clone https://github.com/wqy0916/AR-B-P-B.git
         mv AR-B-P-B SSR-Bash-Python
     fi
     cd /usr/local/SSR-Bash-Python
@@ -372,7 +372,7 @@ if [[ -d /usr/local/SSR-Bash-Python ]];then
     fi
 else
     cd /usr/local
-    git clone https://git.fdos.me/stack/AR-B-P-B.git
+    git clone https://github.com/wqy0916/AR-B-P-B.git
     cd AR-B-P-B
     git checkout master
     if [[ $1 == "develop" ]];then
@@ -471,10 +471,10 @@ fi
 fi
 #Install SSR-Bash Background
 if [[ $1 == "develop" ]];then
-	wget -q -N --no-check-certificate -O /usr/local/bin/ssr https://git.fdos.me/stack/AR-B-P-B/raw/develop/ssr
+	wget -q -N --no-check-certificate -O /usr/local/bin/ssr https://github.com/wqy0916/AR-B-P-B/raw/develop/ssr
 	chmod +x /usr/local/bin/ssr
 else
-	wget -q -N --no-check-certificate -O /usr/local/bin/ssr https://git.fdos.me/stack/AR-B-P-B/raw/master/ssr
+	wget -q -N --no-check-certificate -O /usr/local/bin/ssr https://github.com/wqy0916/AR-B-P-B/raw/master/ssr
 	chmod +x /usr/local/bin/ssr
 fi
 
